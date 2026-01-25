@@ -1,26 +1,173 @@
-@import "tailwindcss";
+/* app/globals.css */
 
+/* ==========================================================================
+   1. CSS Reset / Normalize (2024–2025 friendly)
+   ========================================================================== */
+/* @import 'tailwindcss/base'; */
+/* @import 'tailwindcss/components'; */
+@import 'tailwindcss/utilities';
+@import 'tailwindcss';
+
+/* Modern minimal reset + sensible defaults */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Improve font rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  
+  /* Better line-height for readability (especially medical content) */
+  line-height: 1.5;
+  
+  /* Prevent font size inflation on iOS when rotating */
+  text-size-adjust: 100%;
+}
+
+/* Remove default list styles */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Images and media behave better */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Inherit fonts for inputs/buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Remove default button styles */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   2. Typography & Root Variables
+   ========================================================================== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Font family stack - clean & professional for medical apps */
+  --font-primary: 'Inter', system-ui, -apple-system, BlinkMacC, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Main colors - accessible medical palette */
+  --color-primary: 220 90% 56%;     /* #3b82f6 - blue-500 */
+  --color-primary-dark: 221 83% 46%; /* #2563eb */
+  --color-primary-light: 214 95% 93%; /* #dbeafe */
+
+  --color-success: 152 69% 31%;      /* #16a34a - green-600 */
+  --color-warning: 45 93% 47%;       /* #ca8a04 - yellow-600 */
+  --color-danger: 0 84% 60%;         /* #ef4444 - red-500 */
+  --color-info: 198 93% 60%;         /* #60a5fa */
+
+  --color-gray-50: 210 40% 98%;
+  --color-gray-100: 220 60% 96%;
+  --color-gray-200: 220 50% 90%;
+  --color-gray-300: 216 44% 79%;
+  --color-gray-400: 218 35% 65%;
+  --color-gray-500: 220 25% 45%;
+  --color-gray-600: 215 20% 35%;
+  --color-gray-700: 217 19% 27%;
+  --color-gray-800: 215 25% 17%;
+  --color-gray-900: 220 39% 11%;
+
+  /* Semantic colors */
+  --bg-main: hsl(var(--color-gray-50));
+  --bg-card: white;
+  --text-primary: hsl(var(--color-gray-900));
+  --text-secondary: hsl(var(--color-gray-600));
+  --border: hsl(var(--color-gray-200));
+
+  /* Spacing scale (consistent with Tailwind but named) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  /* Border radius scale */
+  --radius-sm: 0.375rem;
+  --radius: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-full: 9999px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Apply font family globally */
+html,
+body {
+  font-family: var(--font-primary);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
 }
 
+/* ==========================================================================
+   3. Common Utility Classes & App-wide Styles
+   ========================================================================== */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+  /* background-color:red; */
+}
+
+/* Better focus states (very important for accessibility in medical apps) */
+:focus-visible {
+  outline: 3px solid hsl(var(--color-primary));
+  outline-offset: 2px;
+}
+
+/* Card component base style (used in case studies, medicines, prescriptions) */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   4. Dark Mode Support (optional but future-proof)
+   ========================================================================== */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg-main: hsl(var(--color-gray-900));
+    --bg-card: hsl(var(--color-gray-800));
+    --text-primary: hsl(var(--color-gray-100));
+    --text-secondary: hsl(var(--color-gray-400));
+    --border: hsl(var(--color-gray-700));
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+/* Optional: force dark mode during development */
+/* :root { color-scheme: dark; } */

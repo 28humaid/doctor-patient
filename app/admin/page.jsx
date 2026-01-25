@@ -1,9 +1,8 @@
-import React from 'react'
-
-const page = () => {
+export default function AdminDashboardPage() {
   return (
-    <div>ADMIN</div>
-  )
+    <div className="container py-12">
+      <h1>Admin Dashboard</h1>
+      <p>Overview / quick links (to be built later).</p>
+    </div>
+  );
 }
-
-export default page
