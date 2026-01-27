@@ -1,7 +1,7 @@
-export default function AdminDashboardPage() {
+export default function AdminLandingPage() {
   return (
     <div className="container py-12">
-      <h1>Admin Dashboard</h1>
+      <h1>Admin Login</h1>
       <p>Overview / quick links (to be built later).</p>
     </div>
   );
