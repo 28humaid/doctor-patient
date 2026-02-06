@@ -1,13 +1,16 @@
-import Navbar from "../components/nav/Navbar";
-
+import AdminAuthWrapper from "@/components/admin/AdminAuthWrapper"
+import Navbar from "@/components/nav/Navbar";
+// import {useAuth,AuthProvider} from "@/contexts/AuthContext";
+// import LoadingSpinner from "@/components/common/LoadingSpinner";
 export default function AdminLayout({ children }) {
   return (
     <>
-      <Navbar />
-      <main>
-        {children}
-      </main>
-      {/* Future: sidebar can be added here */}
+      <AdminAuthWrapper>
+        <Navbar />
+        <main>
+          {children}
+        </main>
+      </AdminAuthWrapper>
     </>
   );
 }

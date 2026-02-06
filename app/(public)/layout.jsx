@@ -1,9 +1,9 @@
-import Navbar from "@/components/nav/Navbar";
+import UserNavbar from "@/components/nav/UserNavbar";
 
 export default function PublicLayout({ children }) {
   return (
     <>
-      <Navbar />
+      <UserNavbar />
       <main>{children}</main>
       {/* Footer can be added later */}
     </>

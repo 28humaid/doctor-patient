@@ -1,14 +1,15 @@
-"use client";
+// components/nav/Navbar.jsx
+'use client';
 
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-
-// Import only the icons you need (tree-shakable)
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext"; // adjust path
 
 export default function Navbar() {
+  const { isAuthenticated, isLoading, logout } = useAuth();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -29,106 +30,131 @@ export default function Navbar() {
     { href: "/admin/medicine", label: "Medicines" },
   ];
 
-  const items = isAdminRoute ? adminItems : publicItems;
+  // Decide what to show
+  let items = [];
+  let showNavLinks = false;
+
+  if (isLoading) {
+    // During load → minimal (just logo)
+    showNavLinks = false;
+  } else if (isAdminRoute && isAuthenticated) {
+    items = adminItems;
+    showNavLinks = true;
+  } else if (!isAdminRoute) {
+    items = publicItems;
+    showNavLinks = true;
+  } else {
+    // Admin route + not authenticated → only logo (middleware already redirects, but safe)
+    showNavLinks = false;
+  }
+
   const brand = isAdminRoute ? "Admin Panel" : "MedPortal";
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-[hsl(var(--color-gray-200))]">
       <div className="container flex items-center justify-between h-16">
-        {/* Logo / Brand */}
+        {/* Logo / Brand - always visible */}
         <Link
           href={isAdminRoute ? "/admin" : "/"}
           className="flex items-center gap-2 text-xl font-bold text-[hsl(var(--color-primary))]"
         >
           <Image
-            src="/logo.svg"           // Make sure this exists in /public/logo.svg
+            src="/logo.svg"
             alt="MedPortal Logo"
             width={60}
             height={40}
             className="object-contain"
             priority
           />
-          {/* Optional: show text brand next to logo if you want */}
-          {/* <span className="hidden sm:inline">{brand}</span> */}
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
-          {items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`text-sm font-medium transition-colors ${
-                (isAdminRoute
-                  ? pathname.startsWith(item.href)
-                  : pathname === item.href)
-                  ? "text-[hsl(var(--color-primary))] font-semibold"
-                  : "text-[hsl(var(--color-gray-700))] hover:text-[hsl(var(--color-primary))]"
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Hamburger Button – mobile only */}
-        <button
-          className="md:hidden p-2 text-[hsl(var(--color-gray-700))] hover:text-[hsl(var(--color-primary))] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[hsl(var(--color-primary))]"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-        >
-          {menuOpen ? (
-            <X className="h-7 w-7" strokeWidth={2.2} />
-          ) : (
-            <Menu className="h-7 w-7" strokeWidth={2.2} />
-          )}
-        </button>
-      </div>
-
-      {/* Mobile Slide-in Panel */}
-      <div
-        className={`fixed inset-y-0 right-0 w-72 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out md:hidden z-50 ${
-          menuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <div className="flex flex-col h-full p-6">
-          <div className="flex justify-end items-center mb-4">
-            <button
-              className="text-[hsl(var(--color-gray-700))] hover:text-[hsl(var(--color-primary))] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[hsl(var(--color-primary))]"
-              onClick={() => setMenuOpen(false)}
-              aria-label="Close menu"
-            >
-              <X className="h-8 w-8" strokeWidth={2.2} />
-            </button>
-          </div>
-
-          <nav className="flex flex-col gap-6">
+        {/* Desktop Navigation - only when we want links */}
+        {showNavLinks && (
+          <nav className="hidden md:flex items-center gap-6">
             {items.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-lg font-medium transition-colors ${
-                  (isAdminRoute
-                    ? pathname.startsWith(item.href)
-                    : pathname === item.href)
+                className={`text-sm font-medium transition-colors ${
+                  pathname === item.href || (isAdminRoute && pathname.startsWith(item.href))
                     ? "text-[hsl(var(--color-primary))] font-semibold"
                     : "text-[hsl(var(--color-gray-700))] hover:text-[hsl(var(--color-primary))]"
                 }`}
-                onClick={() => setMenuOpen(false)}
               >
                 {item.label}
               </Link>
             ))}
+
+            {/* Logout - only in admin + logged in */}
+            {isAdminRoute && isAuthenticated && (
+              <button
+                onClick={logout}
+                className="flex items-center gap-2 text-sm font-medium text-red-600 hover:text-red-800 transition-colors"
+              >
+                <LogOut className="h-4 w-4" />
+                Logout
+              </button>
+            )}
           </nav>
-        </div>
+        )}
+
+        {/* Hamburger - only show if we have links */}
+        {showNavLinks && (
+          <button
+            className="md:hidden p-2 text-[hsl(var(--color-gray-700))] hover:text-[hsl(var(--color-primary))]"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+          >
+            {menuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
+          </button>
+        )}
       </div>
 
-      {/* Backdrop when menu is open */}
-      {menuOpen && (
+      {/* Mobile menu - same logic */}
+      {showNavLinks && menuOpen && (
+        <div className="fixed inset-y-0 right-0 w-72 bg-white shadow-2xl transform transition-transform md:hidden z-50 translate-x-0">
+          <div className="flex flex-col h-full p-6">
+            <div className="flex justify-end mb-4">
+              <button onClick={() => setMenuOpen(false)}>
+                <X className="h-8 w-8" />
+              </button>
+            </div>
+            <nav className="flex flex-col gap-6">
+              {items.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`text-lg font-medium ${
+                    pathname === item.href || (isAdminRoute && pathname.startsWith(item.href))
+                      ? "text-[hsl(var(--color-primary))] font-semibold"
+                      : "text-[hsl(var(--color-gray-700))] hover:text-[hsl(var(--color-primary))]"
+                  }`}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+
+              {isAdminRoute && isAuthenticated && (
+                <button
+                  onClick={() => {
+                    logout();
+                    setMenuOpen(false);
+                  }}
+                  className="text-lg font-medium text-red-600 hover:text-red-800 text-left"
+                >
+                  Logout
+                </button>
+              )}
+            </nav>
+          </div>
+        </div>
+      )}
+
+      {menuOpen && showNavLinks && (
         <div
           className="fixed inset-0 bg-black/30 md:hidden z-40 backdrop-blur-[2px]"
           onClick={() => setMenuOpen(false)}
-          aria-hidden="true"
         />
       )}
     </header>
