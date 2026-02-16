@@ -1,12 +1,12 @@
 import AdminAuthWrapper from "@/components/admin/AdminAuthWrapper"
-import Navbar from "@/components/nav/Navbar";
+import AdminNavbar from "@/components/nav/AdminNavbar";
 // import {useAuth,AuthProvider} from "@/contexts/AuthContext";
 // import LoadingSpinner from "@/components/common/LoadingSpinner";
 export default function AdminLayout({ children }) {
   return (
     <>
       <AdminAuthWrapper>
-        <Navbar />
+        <AdminNavbar />
         <main>
           {children}
         </main>

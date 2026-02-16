@@ -12,9 +12,12 @@ const AppointmentSchema = new Schema(
     },
     prescription: {
       type: String,
+      default:undefined,
     },
   },
-  { _id: false }
+  {
+    timestamps: true,          //each appointment gets createdAt/updatedAt
+  }
 );
 
 const PatientSchema = new Schema(
@@ -33,6 +36,13 @@ const PatientSchema = new Schema(
       type: String,
       enum: ["male", "female", "other"],
       required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      match: [/^\d{10}$/, "Phone number must be a valid 10-digit Indian number"],
     },
     appointments: [AppointmentSchema],
   },

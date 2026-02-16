@@ -36,6 +36,7 @@ export default function AdminLoginForm() {
             // Use router.push / replace instead of window.location
             router.replace('/admin/medicine');   // or router.push('/admin/prescriptions')
             // replace() is often better here — no back-button to login page
+            window.location.reload();
 
         } catch (err) {
             setErrors({ email: 'Something went wrong — try again' });
