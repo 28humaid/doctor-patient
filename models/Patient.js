@@ -27,11 +27,17 @@ const PatientSchema = new Schema(
       required: true,
       trim: true,
     },
-    age: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
+    yearOfBirth: {
+       type: Number,
+       required: true,
+       min: 1900,
+       max: new Date().getFullYear(),   // ← can be dynamic, or hardcode current year if preferred
+     },
+    // age: {
+    //   type: Number,
+    //   required: true,
+    //   min: 0,
+    // },
     gender: {
       type: String,
       enum: ["male", "female", "other"],

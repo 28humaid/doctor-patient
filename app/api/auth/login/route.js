@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import { connectDB } from "@/lib/mongodb";           // adjust path if needed
+import { connectDB } from "@/lib/mongodb";         
 import { Admin } from "@/models/Admin";
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -51,7 +51,7 @@ export async function POST(req) {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      maxAge: 60 * 60 * 24, // 1 day in seconds
+      maxAge: 60 * 60 * 2, // 1 day in seconds
       path: "/",
     });
 
