@@ -1,20 +1,22 @@
+"use client";
 import FeatureCard from "./FeatureCard";
+import { FlaskConical, Accessibility, Sparkles } from "lucide-react";
 
 const features = [
   {
-    iconSrc: '/images/formula-icon.svg',
-    heading: 'Science-based Formulas',
-    description: 'No guesswork, only proven solutions',
+    icon: FlaskConical,
+    heading: "Science-based Formulas",
+    description: "No guesswork, only proven solutions",
   },
   {
-    iconSrc: '/images/accessible-icon.svg',
-    heading: 'Accessible & Convenient',
-    description: 'Your health delivered to your doorstep',
+    icon: Accessibility,
+    heading: "Accessible & Convenient",
+    description: "Your health delivered to your doorstep",
   },
   {
-    iconSrc: '/images/personalized-recommendation.svg',
-    heading: 'Personalized Recommendations',
-    description: 'Solutions tailored to your unique needs',
+    icon: Sparkles,
+    heading: "Personalized Recommendations",
+    description: "Solutions tailored to your unique needs",
   },
 ];
 
@@ -24,7 +26,7 @@ export default function BelowHero() {
       {features.map((feature, index) => (
         <FeatureCard
           key={index}
-          iconSrc={feature.iconSrc}
+          Icon={feature.icon}
           heading={feature.heading}
           description={feature.description}
         />

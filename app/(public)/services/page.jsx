@@ -1,8 +1,19 @@
+// app/services/page.jsx
+
+import ServiceGrid from "@/components/services/ServiceGrid";
+import ServicesCTA from "@/components/services/ServicesCTA";
+
+
+export const metadata = {
+  title: 'Services - MedPortal | Personalized & Confidential Healthcare',
+  description: 'Explore our range of secure telemedicine services including video consultations, digital prescriptions, chronic disease management, and more.',
+};
+
 export default function ServicesPage() {
   return (
-    <div className="container py-12">
-      <h1>Services</h1>
-      <p>Overview of available medical / consultation services.</p>
+    <div className="min-h-screen bg-[var(--bg-main)]">
+      <ServiceGrid />
+      <ServicesCTA />
     </div>
   );
 }
