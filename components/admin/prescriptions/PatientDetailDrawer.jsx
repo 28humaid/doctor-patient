@@ -10,18 +10,18 @@ export default function PatientDetailDrawer({ patient, currentYear, onClose }) {
     <div className="fixed inset-0 z-50 flex items-end bg-black/40">
       <div
         className={`
-          w-full max-w-4xl mx-auto bg-white rounded-t-2xl shadow-2xl 
+          w-full mx-auto bg-white rounded-t-2xl shadow-2xl 
           transform transition-transform duration-300 ease-in-out
           max-h-[90vh] overflow-y-auto
         `}
       >
         <div className="sticky top-0 z-10 bg-white border-b px-6 py-4 flex items-center justify-between">
-          <h2 className="text-xl font-bold">
-            {patient.name} • {patient.mobile}
+          <h2 className="text-xl font-bold text-[hsl(var(--color-primary))]">
+            {patient.name} • {patient.phone}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full"
+            className="p-2 hover:bg-gray-100 rounded-full text-[hsl(var(--color-primary))]"
           >
             <X size={24} />
           </button>
@@ -29,7 +29,7 @@ export default function PatientDetailDrawer({ patient, currentYear, onClose }) {
 
         <div className="p-6 space-y-8">
           {/* Patient Info */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-[hsl(var(--color-primary))]">
             <div>
               <label className="block text-sm text-gray-500">Name</label>
               <p className="mt-1 font-medium">{patient.name}</p>
@@ -60,20 +60,20 @@ export default function PatientDetailDrawer({ patient, currentYear, onClose }) {
 
           {/* Appointments */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Appointment History</h3>
+            <h3 className="text-lg font-semibold mb-4 text-[hsl(var(--color-primary))]">Appointment History</h3>
 
             {patient.appointments?.length > 0 ? (
-              <div className="overflow-x-auto border border-gray-200 rounded-lg">
+              <div className="overflow-x-auto border border-gray-200 rounded-lg text-[hsl(var(--color-primary))]">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">
                         Date
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">
                         Issue / Complaint
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">
                         Prescription
                       </th>
                     </tr>
@@ -84,17 +84,17 @@ export default function PatientDetailDrawer({ patient, currentYear, onClose }) {
                       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                       .map((appt, idx) => (
                         <tr key={idx}>
-                          <td className="px-6 py-4 whitespace-nowrap text-gray-600">
+                          <td className="px-6 py-4 whitespace-nowrap text-gray-600 text-xs md:text-sm">
                             {new Date(appt.appointmentDate || appt.createdAt).toLocaleDateString('en-IN', {
                               day: '2-digit',
                               month: 'short',
                               year: 'numeric',
                             })}
                           </td>
-                          <td className="px-6 py-4 text-gray-900">
+                          <td className="px-6 py-4 text-gray-900 text-xs md:text-sm">
                             {appt.issue}
                           </td>
-                          <td className="px-6 py-4 text-gray-600">
+                          <td className="px-6 py-4 text-gray-600 text-xs md:text-sm">
                             {appt.prescription || <span className="text-gray-400">—</span>}
                           </td>
                         </tr>
