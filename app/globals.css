@@ -91,11 +91,17 @@ button {
   --color-gray-900: 220 39% 11%;
 
   /* Semantic colors */
-  --bg-main: hsl(var(--color-gray-50));
+  /* --bg-main: hsl(var(--color-gray-50));
   --bg-card: white;
   --text-primary: hsl(var(--color-gray-900));
   --text-secondary: hsl(var(--color-gray-600));
-  --border: hsl(var(--color-gray-200));
+  --border: hsl(var(--color-gray-200)); */
+
+   --bg-main: hsl(var(--color-gray-900));
+    --bg-card: hsl(var(--color-gray-800));
+    --text-primary: hsl(var(--color-gray-100));
+    --text-secondary: hsl(var(--color-gray-400));
+    --border: hsl(var(--color-gray-700));
 
   /* Spacing scale (consistent with Tailwind but named) */
   --space-1: 0.25rem;
